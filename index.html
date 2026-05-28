@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Animated Red Love Heart</title>
+    <title>Eid Mobarak Heart</title>
     <style>
         * {
             margin: 0;
@@ -18,97 +18,76 @@
             min-height: 100vh;
             background-color: #050505;
             overflow: hidden;
-            font-family: 'Arial', sans-serif;
         }
 
-        /* Container that holds the text heart */
         .heart-container {
             position: relative;
-            width: 600px;
-            height: 600px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            width: min(340px, 90vw);
+            height: min(340px, 90vw);
         }
 
-        /* Styling for each "I Love You" text piece */
         .love-text {
             position: absolute;
-            color: hsl(228, 100%, 53%); /* Vibrant Red */
-            font-size: 11px;
+            color: #3a8eff;
+            font-size: clamp(7px, 2vw, 10px);
             font-weight: bold;
             text-transform: uppercase;
             letter-spacing: 1px;
             cursor: default;
             user-select: none;
-            
-            /* Deep red neon glow effect */
-            text-shadow: 0 0 8px hwb(232 10% 6% / 0.9),
-                         0 0 20px hwb(59 8% 19% / 0.851),
-                         0 0 30px #0f73ff66;
-            
-            /* Initial state before animation starts */
+            text-shadow: 0 0 6px rgba(58, 142, 255, 0.8),
+                         0 0 14px rgba(58, 142, 255, 0.4);
             opacity: 0;
             transform: translate(-50%, -50%) scale(0);
-            
-            /* Combines the entry appearance and the continuous beating */
-            animation: appear 2.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards,
-                       pulse 2s ease-in-out infinite 2.5s;
+            animation: appear 2s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards,
+                       pulse 2.2s ease-in-out infinite 2s;
+            will-change: transform, opacity;
         }
 
-        /* 1. The Entrance Animation (Appearing piece by piece) */
         @keyframes appear {
             0% {
                 opacity: 0;
-                transform: translate(-50%, -50%) scale(0) rotate(-45deg);
-                filter: blur(10px);
-            }
-            50% {
-                opacity: 0.5;
+                transform: translate(-50%, -50%) scale(0);
             }
             100% {
                 opacity: 1;
-                transform: translate(-50%, -50%) scale(1) rotate(0deg);
-                filter: blur(0px);
+                transform: translate(-50%, -50%) scale(1);
             }
         }
 
-        /* 2. The Continuous Beating Animation (Starts after appearing) */
         @keyframes pulse {
             0%, 100% {
                 transform: translate(-50%, -50%) scale(1);
-                filter: brightness(1);
             }
             50% {
-                transform: translate(-50%, -50%) scale(1.15);
-                filter: brightness(1.4);
-                color: hsl(54, 100%, 65%); /* Lightens slightly at the peak of the beat */
+                transform: translate(-50%, -50%) scale(1.12);
+                color: #ffe566;
             }
         }
 
-        /* Ambient floating background hearts */
         .particle {
             position: absolute;
-            background: rgba(255, 15, 57, 0.15);
-            clip-path: path('M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z');
-            animation: floatUp 6s linear infinite;
-            bottom: -50px;
+            width: 8px;
+            height: 8px;
+            background: rgba(255, 215, 0, 0.2);
+            border-radius: 50%;
+            animation: floatUp 5s linear infinite;
             pointer-events: none;
         }
 
         @keyframes floatUp {
             0% {
-                transform: translateY(0) scale(0) rotate(0deg);
+                transform: translateY(0) scale(0);
                 opacity: 0;
             }
-            10% {
-                opacity: 0.4;
+            15% {
+                opacity: 0.5;
             }
-            90% {
-                opacity: 0.4;
+            85% {
+                opacity: 0.3;
             }
             100% {
-                transform: translateY(-105vh) scale(1) rotate(360deg);
+                transform: translateY(-100vh) scale(1.2);
                 opacity: 0;
             }
         }
@@ -120,59 +99,47 @@
 
     <script>
         const container = document.getElementById('heartContainer');
-        const totalElements = 180; 
-        const textPhrase = "Eid Mobarak";
+        const total = 90;
+        const phrase = "Eid Mobarak";
 
-        // Mathematical parametric heart curve coordinates
-        for (let i = 0; i < totalElements; i++) {
-            const t = (i / totalElements) * 2 * Math.PI; 
-            
+        const size = container.offsetWidth || 300;
+        const cx = size / 2;
+        const cy = size * 0.44;
+        const sx = size / 38;
+        const sy = size / 38;
+
+        for (let i = 0; i < total; i++) {
+            const t = (i / total) * 2 * Math.PI;
             const x = 16 * Math.pow(Math.sin(t), 3);
-            const y = 13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t);
+            const y = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t);
 
-            const scaleX = 15; 
-            const scaleY = 15;
-            const leftPos = 300 + (x * scaleX);
-            const topPos = 250 - (y * scaleY); 
-
-            // Create text node
             const span = document.createElement('span');
             span.className = 'love-text';
-            span.innerText = textPhrase;
-            span.style.left = `${leftPos}px`;
-            span.style.top = `${topPos}px`;
+            span.textContent = phrase;
+            span.style.left = `${cx + x * sx}px`;
+            span.style.top  = `${cy - y * sy}px`;
 
-            /* STAGGER EFFECT: 
-               By scaling the animation delay based on its position (i), 
-               the "I Love You" phrases will spin and assemble outwards 
-               creating a beautiful drawing-in appearance effect.
-            */
-            const appearanceDelay = (i / totalElements) * 2.0; 
-            span.style.animationDelay = `${appearanceDelay}s, ${appearanceDelay + 2.5}s`;
+            const delay = (i / total) * 1.8;
+            span.style.animationDelay = `${delay}s, ${delay + 2}s`;
 
             container.appendChild(span);
         }
 
-        // Ambient floating background generator
-        function createBackgroundParticle() {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            
-            const size = Math.random() * 20 + 10;
-            particle.style.width = `${size}px`;
-            particle.style.height = `${size}px`;
-            particle.style.left = `${Math.random() * 100}vw`;
-            particle.style.animationDuration = `${Math.random() * 4 + 4}s`;
-            
-            document.body.appendChild(particle);
-
-            setTimeout(() => {
-                particle.remove();
-            }, 8000);
-        }
-
-        // Start background elements
-        setInterval(createBackgroundParticle, 250);
+        let pCount = 0;
+        const pTimer = setInterval(() => {
+            if (pCount++ > 40) {
+                clearInterval(pTimer);
+                return;
+            }
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.style.left = `${Math.random() * 100}%`;
+            p.style.animationDuration = `${Math.random() * 3 + 4}s`;
+            p.style.animationDelay = `${Math.random() * 2}s`;
+            document.body.appendChild(p);
+            setTimeout(() => p.remove(), 7000);
+        }, 400);
     </script>
+
 </body>
 </html>
